@@ -14,14 +14,21 @@ ArrayStack::ArrayStack()
 int ArrayStack::Pop()
 {
     // TODO: ASSESSED [1]
-    return 0;
+    if (stackTop == -1) {
+        return 0;
+    }
+
+    int topOfStack = arr[stackTop]; //top of stack element
+    stackTop -= 1;
+
+    return topOfStack;
 }
 
 // Check first element, return value.
 int ArrayStack::Peek()
 {
     // TODO: ASSESSED [0.5]
-    return 0;
+    return arr[stackTop];
 }
 
 // Add element to top of stack, 
@@ -30,6 +37,14 @@ void ArrayStack::Push(int n)
 {
     // TODO: ASSESSED [1]
     // [0.5] if correct without resizing.
+    if (stackTop == capacity - 1) //if stack is full (in this case, its an Raw array)
+    {
+        DoubleArray();
+    }
+
+    stackTop += 1; // ++ new stack layer
+    arr[stackTop] = n; //set value
+
     
 }
 
@@ -68,19 +83,36 @@ Node::Node(int n)
 QueueList::QueueList()
 {
     // TODO: ASSESSED [0.5]
+    front = nullptr;
+    back = nullptr;
 }
 
 // Add item to back of queue
 void QueueList::Enqueue(int n)
 {
     // TODO: ASSESSED [1]
+    if (front == nullptr) { //if no head
+        back = new Node(n);
+        front = back;
+        return;
+    }
+
+    //if there is a head (front)
+    back->next = new Node(n); //last node points to new last node
+    back = back->next; //set the variable back in the queueList to be the new end of queue
 }
 
 // Remove item from front of queue
 int QueueList::Dequeue()
 {
+    if (front == nullptr) { //sanity check
+        return 0;
+    }
+
     // TODO: ASSESSED [1]
-    return 0;
+    int itemToReturn = front->data; //sets the item to return to be the first element in the ll
+    front = front->next; //set front to be the one behind the first
+    return itemToReturn;
 }
 
 // Print elements in Stack neatly
